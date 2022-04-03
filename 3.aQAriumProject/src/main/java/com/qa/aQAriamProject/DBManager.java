@@ -6,8 +6,13 @@ import java.sql.ResultSet;
 
 //Connect to the database, send queries and receive data
 public class DBManager {
+	
 	final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	final String DB_URL = "jdbc:mysql://localhost:3306/aquarium?serverTimezone=BST";
+	
+//When testing the app, use the following testDatabase and comment out prod database
+	final String Test_DB_URL= "jdbc:mysql://localhost:3306/test_aquarium?serverTimezone=BST";
+		
+//	final String DB_URL = "jdbc:mysql://localhost:3306/aquarium?serverTimezone=BST";
 	final String USER = "root";
 	final String PASSWORD = "root";
 
@@ -19,7 +24,8 @@ public class DBManager {
 	public Connection connectDB() {
 		try {
 			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+//			conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+			conn = DriverManager.getConnection(Test_DB_URL, USER, PASSWORD);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return conn;
