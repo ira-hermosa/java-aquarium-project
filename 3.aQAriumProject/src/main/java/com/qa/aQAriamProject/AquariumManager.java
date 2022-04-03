@@ -169,7 +169,7 @@ public class AquariumManager {
 	public ArrayList<Fish> addFishToOrderBasket(int id) {
 		
 		try {
-			String query = "SELECT * FROM fish where id = ?";
+			String query = "Select * FROM fish WHERE id = ?";
 			preState = conn.prepareStatement(query);
 			preState.setInt(1, id);
 			ResultSet result = databaseSetup().executeQuery(query);

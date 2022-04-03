@@ -18,7 +18,7 @@ public class Runner {
 		manager.updateFishByQuery(new Fish("striped fin", "black", 4, 5), "colour", "white" ); 
 //		manager.deleteFishById(3);
 //		manager.deleteAllFish();
-		System.out.println(manager.addFishToOrderBasket(2));
+		System.out.println(manager.addFishToOrderBasket(1));
 		System.out.println(manager.buyFish());
 
 	}

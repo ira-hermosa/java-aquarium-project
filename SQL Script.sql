@@ -13,7 +13,7 @@ PRIMARY KEY(id)
 );
 
 Select * FROM fish;
-Select * FROM fish where id = 1;
+Select * FROM fish where id = 2;
 DELETE FROM fish where id>0;
 
 

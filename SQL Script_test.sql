@@ -10,4 +10,6 @@ cost float NOT NULL,
 PRIMARY KEY(id)
 );
 
+SELECT * FROM fish;
+
 DROP TABLE fish;
