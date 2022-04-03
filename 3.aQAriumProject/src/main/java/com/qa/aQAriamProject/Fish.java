@@ -2,13 +2,13 @@ package com.qa.aQAriamProject;
 
 public class Fish {
 	
-	private long id;
+	private int id;
 	private String type;
 	private String colour;
 	private int length; 
 	private float cost;
 	
-	public Fish(long id, String type, String colour, int length, float cost) {
+	public Fish(int id, String type, String colour, int length, float cost) {
 		super();
 		this.id = id;
 		this.type = type;
@@ -29,7 +29,7 @@ public class Fish {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -7,15 +7,18 @@ public class Runner {
 		DBManager db = new DBManager();
 		AquariumManager manager = new AquariumManager();
 		
+//		manager.addFish(new Fish("green fin", "green", 5, 7));
+//		manager.addFish(new Fish("tuna", "pink", 8, 7));
+//		manager.addFish(new Fish("koi", "orange", 8, 9));
+		
 		System.out.println(manager.getAllFish());
-		manager.addFish(new Fish("green fin", "green", 5, 7));
-		System.out.println(manager.getFishId(2));
+		System.out.println(manager.getFishId(1));
 		System.out.println(manager.getAllFish());
-		manager.updateFishById(1, new Fish("sardine", "grey", 4, 3)); 
+		System.out.println(manager.updateFishById(1, new Fish("sardine", "grey", 4, 3))); 
 		manager.updateFishByQuery(new Fish("striped fin", "black", 4, 5), "colour", "white" ); 
-		manager.deleteFishById(4);
-		manager.deleteAllFish();
-		manager.addFishToOrderBasket(5); 
+//		manager.deleteFishById(3);
+//		manager.deleteAllFish();
+		System.out.println(manager.addFishToOrderBasket(2));
 		System.out.println(manager.buyFish());
 
 	}

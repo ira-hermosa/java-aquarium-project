@@ -8,12 +8,15 @@ import java.util.ArrayList;
 
 public class AquariumManager {
 	
+	//Create a DBManager object for use in the code
 	DBManager manager = new DBManager();
 
+	//Making a connection object and have the manager object call the ConnectDB from the DBManager class
 	Connection conn = manager.connectDB();
 
 	PreparedStatement preState;
 
+	
 	private ArrayList<Fish> orderBasket = new ArrayList<Fish>();
 	
 	
@@ -56,6 +59,7 @@ public class AquariumManager {
 			preState.setInt(1, id);
 
 			ResultSet result = preState.executeQuery();
+			// Without using result.next() the first line of result are the headers "type", "colour", "length", "cost"
 			result.next();
 			return manager.convertResults(result);
 		
@@ -67,12 +71,14 @@ public class AquariumManager {
 	}
 
 	public ArrayList<Fish> getAllFish() {
-		// TODO - Returns an arrayList of all fish from DB
+	
 		ArrayList<Fish> fishList = new ArrayList<Fish>();
 		try {
 			String query = "SELECT * FROM fish";
-			ResultSet result = databaseSetup().executeQuery(query);
+			preState = conn.prepareStatement(query);
+			ResultSet result = preState.executeQuery(query);
 			
+			//while there is another row of data below the current, move down the row and use the new data
 			while (result.next()) {
 				Fish newFish = manager.convertResults(result);
 				fishList.add(newFish);
@@ -88,39 +94,37 @@ public class AquariumManager {
 	}
 
 	public boolean updateFishById(int id, Fish fish) {
-		// TODO - Updates a fish by ID
-		
+	
 		try {String query = "UPDATE fish SET type = ?, colour = ?, length = ?, cost = ? WHERE id = ?";
-		PreparedStatement preStmt = conn.prepareStatement(query);
-		
-		preStmt.setString(1, fish.getType());
-		preStmt.setString(2, fish.getColour());
-		preStmt.setInt(3, fish.getLength());
-		preStmt.setFloat(4, fish.getCost());
-		preStmt.setFloat(4, id);
-		
-		
-		preStmt.executeUpdate();
+
+		preState = conn.prepareStatement(query);
+		preState.setString(1, fish.getType());
+		preState.setString(2, fish.getColour());
+		preState.setInt(3, fish.getLength());
+		preState.setFloat(4, fish.getCost());
+		preState.setFloat(5, id);
+		preState.executeUpdate();
+		return true;
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+
 	}
+	
 
 	public boolean updateFishByQuery(Fish fish, String queryHeader, String value) {
-		// TODO - Updates all fish that match criteria
+		
 		try {
 			String query = "UPDATE fish SET type = ?, colour = ?, length = ?, cost = ? WHERE " + queryHeader + " = ?";
-			PreparedStatement preStmt = conn.prepareStatement(query);
-			
-			preStmt.setString(1, fish.getType());
-			preStmt.setString(2, fish.getColour());
-			preStmt.setInt(3, fish.getLength());
-			preStmt.setFloat(4, fish.getCost());
-			preStmt.setString(5, value);
-			preStmt.executeUpdate();
+			preState = conn.prepareStatement(query);
+			preState.setString(1, fish.getType());
+			preState.setString(2, fish.getColour());
+			preState.setInt(3, fish.getLength());
+			preState.setFloat(4, fish.getCost());
+			preState.setString(5, value);
+			preState.executeUpdate();
 			return true;	
 			
 		}catch (Exception e) {
@@ -130,13 +134,11 @@ public class AquariumManager {
 		
 	}
 
-	
 	public boolean deleteFishById(int id) {
-		// TODO - Deletes a fish by ID
-		
+	
 		try {
 			String query = "DELETE FROM fish WHERE id = ?";
-			PreparedStatement preState = conn.prepareStatement(query);
+			preState = conn.prepareStatement(query);
 			preState.setInt(1, id);
 			preState.executeUpdate();
 			
@@ -149,42 +151,44 @@ public class AquariumManager {
 
 	
 	public boolean deleteAllFish() {
-		// TODO - Deletes all fish
 		try {
-			String query = "DELETE * FROM fish ";
-			PreparedStatement preState = conn.prepareStatement(query);
+			String query = "DELETE FROM fish where id>=0";
+			preState = conn.prepareStatement(query);
+			preState.executeUpdate();
+			return true;
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
+		
 	}
+	
 
+//	Method takes in an ID, finds a fish with that ID and adds it to the orderBasket ArrayList
 	public ArrayList<Fish> addFishToOrderBasket(int id) {
-		// TODO - Takes in an ID, finds a fish with that ID and adds it to the
-		// orderBasket ArrayList
 		
 		try {
-			String query = "SELECT * FROM fish WHERE id = ?";
-			
+			String query = "SELECT * FROM fish where id = ?";
+			preState = conn.prepareStatement(query);
+			preState.setInt(1, id);
 			ResultSet result = databaseSetup().executeQuery(query);
-			result.next();
+			
+			while (result.next()) {
 				Fish newFish = manager.convertResults(result);
 				orderBasket.add(newFish);
-			
-			
+			}
+			return orderBasket;
+										
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		return orderBasket;
 		
 	}
 
+//	Method returns the total cost of all fish in the basket
 	public float buyFish() {
-		// TODO - Returns the total cost of all fish in the basket and clears the basket
-		// STRETCH - Removes the bought fish from the aquarium
 		try {
 			
 			float totalSum=0f;
