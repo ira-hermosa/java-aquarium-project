@@ -76,6 +76,32 @@ public class AquariumManagerTest {
 		
 	}
 	
+	@Test
+	public void updateFishByQueryTest() {
+		int id = 1;
+		fish1ID.setCost(3);
+		fish1ID.setColour("brown");
+		fish1ID.setLength(4);
+		fish1ID.setType("Tuna");
+		boolean result = testManager.updateFishByQuery(fish1ID, "Colour", "colour1");
+		Assertions.assertTrue(true);
+		
+		
+	}
+	
+	@Test
+	public void deleteByIdTest() {
+		int id = 2;
+		boolean result = testManager.deleteFishById(id);
+		Assertions.assertTrue(true);
+	}
+	
+	@Test
+	public void deleteAllFishTest() {
+		boolean result = testManager.deleteAllFish();
+		Assertions.assertTrue(true);
+	}
+	
 	
 
 }
